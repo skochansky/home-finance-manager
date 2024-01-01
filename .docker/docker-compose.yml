@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  app:
+    container_name: hfm_api_gateway
+    build:
+      context: ../
+      dockerfile: .docker/Dockerfile
+    command: "poetry run python src/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    links:
+      - db:db
+  db:
+    container_name: db_hfm_api_gateway
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}

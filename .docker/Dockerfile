@@ -6,7 +6,7 @@ COPY pyproject.toml /app
 
 COPY poetry.lock /app
 
-COPY . /app
+COPY . .
 
 RUN pip3 install poetry
 

@@ -101,3 +101,5 @@ STATIC_URL = "static/"
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+ACCOUNT_MANAGEMENT_URL = env("ACCOUNT_MANAGEMENT_URL")

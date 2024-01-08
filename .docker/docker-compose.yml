@@ -4,6 +4,7 @@ services:
   hfm-api-gateway:
     networks:
       - hfm-user-account-management-service
+      - hfm-budget-analysis-service
     container_name: hfm_api_gateway
     build:
       context: ../
@@ -29,4 +30,8 @@ services:
 
 networks:
     hfm-user-account-management-service:
+        external: true
+    hfm-budget-analysis-service:
+        external: true
+    hfm-user-notifications-service:
         external: true

@@ -26,6 +26,7 @@ INSTALLED_APPS = [
 
 INSTALLED_EXTENSIONS = [
     "accounts_management",
+    "budget_analysis",
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
@@ -102,4 +103,6 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# API URLs
 ACCOUNT_MANAGEMENT_URL = env("ACCOUNT_MANAGEMENT_URL")
+BUDGET_ANALYSIS_URL = env("BUDGET_ANALYSIS_URL")

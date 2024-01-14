@@ -27,7 +27,9 @@ INSTALLED_APPS = [
 ]
 
 INSTALLED_EXTENSIONS = [
-    "accounts",
+    "accounts_management",
+    "budget_analysis",
+    "users_notifications",
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS

@@ -45,3 +45,6 @@ jobs:
     - name: Run Safety
       run: |
         poetry run safety check
+    - name: Run Ruff
+      run: |
+          poetry run ruff src

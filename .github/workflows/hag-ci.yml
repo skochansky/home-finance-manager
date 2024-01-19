@@ -38,13 +38,10 @@ jobs:
         poetry run python manage.py test --settings=core.settings.settings_ci
     - name: Run Linting
       run: |
-        cd src
         poetry run flake8
     - name: Run Bandit
       run: |
-        cd src
         poetry run bandit -r .
     - name: Run Safety
       run: |
-        cd src
         poetry run safety check

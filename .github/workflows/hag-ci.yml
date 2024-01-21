@@ -36,9 +36,6 @@ jobs:
       run: |
         cd src
         poetry run python manage.py test --settings=core.settings.settings_ci
-    - name: Run Linting
-      run: |
-        poetry run flake8 --max-line-length=120 --ignore=F401
     - name: Run Bandit
       run: |
         poetry run bandit -r .

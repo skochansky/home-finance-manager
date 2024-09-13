@@ -7,13 +7,13 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12.1"
-requests = "^2.31.0"
-fastapi = "^0.111.0"
+requests = "^2.32.3"
+django = "^5.1.1"
+django-rest-framework = "^0.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.6.0"
-pytest = "^8.2.2"
 
 
 [tool.poetry.group.ci.dependencies]

@@ -2,7 +2,7 @@
 name = "hfm-api-gateway"
 version = "0.1.0"
 description = ""
-authors = ["stanislaw <stanislaw.kochanski@protonmail.com>"]
+authors = [""]
 readme = "README.md"
 
 [tool.poetry.dependencies]

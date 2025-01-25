@@ -2,15 +2,14 @@
 name = "hfm-api-gateway"
 version = "0.1.0"
 description = ""
-authors = [""]
+authors = ["stanislaw <stanislaw.kochanski@protonmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.13.1"
+python = "^3.12.1"
 requests = "^2.32.3"
-fastapi = "^0.115.6"
-uvicorn = "^0.34.0"
-pytest = "^8.3.4"
+fastapi = {extras = ["standard"], version = "^0.115.7"}
+sqlalchemy = "^2.0.37"
 
 
 [tool.poetry.group.dev.dependencies]

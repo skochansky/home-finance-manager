@@ -3,29 +3,17 @@ services:
     networks:
       - hfm-user-account-management-service
       - hfm-budget-analysis-service
+      - hfm-user-notifications-service
     container_name: hfm_api_gateway
     build:
       context: ../
       dockerfile: .docker/Dockerfile
-    command: "poetry run uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
       - .:/usr/src/app
     ports:
       - "8000:8000"
-    depends_on:
-      - db-hfm-api-gateway
-    links:
-      - db-hfm-api-gateway:db-hfm-api-gateway
-  db-hfm-api-gateway:
-    networks:
-      - hfm-user-account-management-service
-    container_name: db_hfm_api_gateway
-    image: postgres:16
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
 
+      
 networks:
     hfm-user-account-management-service:
         external: true

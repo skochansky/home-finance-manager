@@ -31,7 +31,7 @@ jobs:
         python -m pip install poetry
     - name: Install Dependencies
       run: |
-        poetry install --no-root --with dev, ci
+        poetry install --no-root --with dev,ci
       env: 
         POETRY_VIRTUALENVS_CREATE: false
     - name: Run Tests

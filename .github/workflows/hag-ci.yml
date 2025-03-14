@@ -46,4 +46,4 @@ jobs:
       continue-on-error: true
     - name: Run Ruff
       run: |
-          ruff app
+          ruff src

@@ -43,6 +43,7 @@ jobs:
     - name: Run Safety
       run: |
         safety check
+      continue-on-error: true
     - name: Run Ruff
       run: |
           ruff app

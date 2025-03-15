@@ -39,7 +39,7 @@ jobs:
         pytest tests
     - name: Run Bandit
       run: |
-        bandit -r app
+        bandit -r src
     - name: Run Safety
       run: |
         safety check

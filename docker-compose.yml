@@ -1,0 +1,142 @@
+version: '3.8'
+
+services:
+  # Databases
+  postgres-transactions:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: transactions
+      POSTGRES_USER: hfm_user
+      POSTGRES_PASSWORD: hfm_password
+    volumes:
+      - postgres_transactions_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - hfm-network
+
+  postgres-accounts:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: accounts
+      POSTGRES_USER: hfm_user
+      POSTGRES_PASSWORD: hfm_password
+    volumes:
+      - postgres_accounts_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - hfm-network
+
+  postgres-notifications:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: notifications
+      POSTGRES_USER: hfm_user
+      POSTGRES_PASSWORD: hfm_password
+    volumes:
+      - postgres_notifications_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    networks:
+      - hfm-network
+
+  postgres-budget:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: budget_analysis
+      POSTGRES_USER: hfm_user
+      POSTGRES_PASSWORD: hfm_password
+    volumes:
+      - postgres_budget_data:/var/lib/postgresql/data
+    ports:
+      - "5435:5432"
+    networks:
+      - hfm-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - hfm-network
+
+  # Microservices
+  api-gateway:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - TRANSACTION_SERVICE_URL=http://transaction-service:8001
+      - ACCOUNT_SERVICE_URL=http://account-service:8002
+      - NOTIFICATION_SERVICE_URL=http://notification-service:8003
+      - BUDGET_SERVICE_URL=http://budget-service:8004
+    depends_on:
+      - transaction-service
+      - account-service
+      - notification-service
+      - budget-service
+    networks:
+      - hfm-network
+
+  transaction-service:
+    build: ./hfm-transaction-management-service
+    ports:
+      - "8001:8001"
+    environment:
+      - DATABASE_URL=postgresql://hfm_user:hfm_password@postgres-transactions:5432/transactions
+    depends_on:
+      - postgres-transactions
+    networks:
+      - hfm-network
+
+  account-service:
+    build: ./hfm-user-account-management-service
+    ports:
+      - "8002:8002"
+    environment:
+      - DATABASE_URL=postgresql://hfm_user:hfm_password@postgres-accounts:5432/accounts
+      - SECRET_KEY=your-secret-key-change-in-production
+    depends_on:
+      - postgres-accounts
+    networks:
+      - hfm-network
+
+  notification-service:
+    build: ./hfm-user-notification-service
+    ports:
+      - "8003:8003"
+    environment:
+      - DATABASE_URL=postgresql://hfm_user:hfm_password@postgres-notifications:5432/notifications
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres-notifications
+      - redis
+    networks:
+      - hfm-network
+
+  budget-service:
+    build: ./hfm-budget-analysis-service
+    ports:
+      - "8004:8004"
+    environment:
+      - DATABASE_URL=postgresql://hfm_user:hfm_password@postgres-budget:5432/budget_analysis
+      - TRANSACTION_SERVICE_URL=http://transaction-service:8001
+    depends_on:
+      - postgres-budget
+      - transaction-service
+    networks:
+      - hfm-network
+
+networks:
+  hfm-network:
+    driver: bridge
+
+volumes:
+  postgres_transactions_data:
+  postgres_accounts_data:
+  postgres_notifications_data:
+  postgres_budget_data:
+  redis_data:

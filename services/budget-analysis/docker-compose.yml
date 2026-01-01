@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: hfm-budget-postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: budget_analysis
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d budget_analysis"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - hfm-network
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: hfm-budget-analysis-service
+    environment:
+      DATABASE_URL: postgresql://user:password@postgres:5432/budget_analysis
+      TRANSACTION_SERVICE_URL: ${TRANSACTION_SERVICE_URL:-http://localhost:8001}
+    ports:
+      - "8004:8004"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - hfm-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  hfm-network:
+    driver: bridge

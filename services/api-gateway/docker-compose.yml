@@ -1,0 +1,20 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: hfm-api-gateway
+    environment:
+      TRANSACTION_SERVICE_URL: ${TRANSACTION_SERVICE_URL:-http://transaction-management:8100}
+      USER_ACCOUNT_SERVICE_URL: ${USER_ACCOUNT_SERVICE_URL:-http://user-account-management:8200}
+      NOTIFICATION_SERVICE_URL: ${NOTIFICATION_SERVICE_URL:-http://user-notification:8300}
+      BUDGET_SERVICE_URL: ${BUDGET_SERVICE_URL:-http://budget-analysis:8400}
+    ports:
+      - "8000:8000"
+    networks:
+      - hfm-network
+    restart: unless-stopped
+
+networks:
+  hfm-network:
+    external: true

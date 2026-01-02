@@ -2,11 +2,11 @@
 name = "api-gateway"
 version = "0.1.0"
 description = "API Gateway for Home Finance Manager"
-authors = ["stanislaw <>"]
-readme = "README.md"
+authors = ["stanislaw <...>"]
+package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.12.1"
+python = "^3.14"
 fastapi = {extras = ["standard"], version = "^0.115.7"}
 uvicorn = "^0.34.0"
 httpx = "^0.28.1"

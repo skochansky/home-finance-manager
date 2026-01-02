@@ -29,7 +29,7 @@ services:
       DATABASE_URL: postgresql://user:password@postgres:5432/budget_analysis
       TRANSACTION_SERVICE_URL: ${TRANSACTION_SERVICE_URL:-http://localhost:8001}
     ports:
-      - "8004:8004"
+      - "8400:8400"
     depends_on:
       postgres:
         condition: service_healthy
@@ -42,4 +42,4 @@ volumes:
 
 networks:
   hfm-network:
-    driver: bridge
+    external: true
